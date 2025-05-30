@@ -18,7 +18,7 @@ docker run -p 8080:8080 ^
 
 > On Linux/Mac, use `\` instead of `^`.
 
-### 🖥️ Locally with Uvicorn (optional)
+###  Locally with Uvicorn (optional)
 
 ```bash
 TASK_SERVICE_URL=http://localhost:8002 \
