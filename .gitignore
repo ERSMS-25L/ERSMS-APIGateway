@@ -1,15 +1,21 @@
-__pycache__/
-.env
+# Entorno virtual
 venv/
-*.pyc
+.env/
+
+# Archivos de Python
+__pycache__/
+*.py[cod]
 *.pyo
 *.pyd
-.Python
-*.sqlite3
-*.log
-*.pot
-*.mo
-*.swp
-.DS_Store
-.idea/
+
+# Caché de pytest
+.pytest_cache/
+
+# VSCode, PyCharm
 .vscode/
+.idea/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
