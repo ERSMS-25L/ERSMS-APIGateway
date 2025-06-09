@@ -9,9 +9,11 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
-# Obtener URLs desde variables de entorno (con valores por defecto)
-TASK_SERVICE_URL = os.getenv("TASK_SERVICE_URL", "http://task-service:8000")
-USER_SERVICE_URL = os.getenv("USER_SERVICE_URL", "http://user-service:8001")
+# URLs de microservicios (por defecto, apuntan a nombres de servicio docker)
+TASK_SERVICE_URL = os.getenv("TASK_SERVICE_URL", "http://task-service:8002")
+USER_SERVICE_URL = os.getenv("USER_SERVICE_URL", "http://user-service:8003")
+DONATION_SERVICE_URL = os.getenv("DONATION_SERVICE_URL", "http://donation-service:8001")
+NOTIFICATION_SERVICE_URL = os.getenv("NOTIFICATION_SERVICE_URL", "http://notification-service:8004")
 
 @app.get("/health")
 def health():
@@ -30,7 +32,6 @@ async def create_task(request: Request):
     logger.info(f"Forwarding to {TASK_SERVICE_URL}/task/create with body: {body}")
     async with httpx.AsyncClient() as client:
         response = await client.post(f"{TASK_SERVICE_URL}/task/create", json=body)
-    logger.info(f"Response from task service: {response.status_code}")
     return response.json()
 
 @app.get("/user/{user_id}")
@@ -38,7 +39,22 @@ async def get_user(user_id: str):
     logger.info(f"GET /user/{user_id} called")
     async with httpx.AsyncClient() as client:
         response = await client.get(f"{USER_SERVICE_URL}/user/{user_id}")
-    logger.info(f"Response from user service: {response.status_code}")
+    return response.json()
+
+@app.post("/donation/create")
+async def create_donation(request: Request):
+    logger.info("POST /donation/create called")
+    body = await request.json()
+    async with httpx.AsyncClient() as client:
+        response = await client.post(f"{DONATION_SERVICE_URL}/donation/create", json=body)
+    return response.json()
+
+@app.post("/notify")
+async def send_notification(request: Request):
+    logger.info("POST /notify called")
+    body = await request.json()
+    async with httpx.AsyncClient() as client:
+        response = await client.post(f"{NOTIFICATION_SERVICE_URL}/notify", json=body)
     return response.json()
 
 
