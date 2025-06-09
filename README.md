@@ -23,7 +23,7 @@ docker run -p 8080:8080 ^
 ```bash
 TASK_SERVICE_URL=http://localhost:8002 \
 USER_SERVICE_URL=http://localhost:8003 \
-uvicorn src.main:app --reload --port 8080
+uvicorn src.main:app --reload --port 8000
 ```
 
 ---
